@@ -1,18 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SkagoGames.PlayerNC;
 
 public class PlayerTopDown : PlayerBehaviour
 {
-    public Rigidbody2D rigidbody2Ds;
     public float moveSpeed = 5f;
 
-    public override void IFPlayerSetup()
-    {
-        rigidbody2Ds = GetComponent<Rigidbody2D>();
-    }
-
-    public override void IFPlayerLoop()
+    protected override void VPlayerLoop()
     {
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");

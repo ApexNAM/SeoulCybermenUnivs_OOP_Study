@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SkagoGames.PlayerNC;
 
 public class PlayerPlatformer : PlayerBehaviour
 {
@@ -11,7 +12,7 @@ public class PlayerPlatformer : PlayerBehaviour
 
     private float groundDistance = 0.4f;
     private bool isGrounded = false;
-    public override void IFPlayerSetup()
+    protected override void VPlayerSetup()
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -19,7 +20,7 @@ public class PlayerPlatformer : PlayerBehaviour
         rigidbody2Ds = GetComponent<Rigidbody2D>();
     }
 
-    public override void IFPlayerLoop()
+    protected override void VPlayerLoop()
     {
         float moveRight = Input.GetAxisRaw("Horizontal");
         Vector2 movement = transform.right * moveRight;
@@ -34,7 +35,7 @@ public class PlayerPlatformer : PlayerBehaviour
         }
     }
 
-    public override void OnPlayerEnter2D(Collider2D otherP2D)
+    protected override void OnPlayerEnter2D(Collider2D otherP2D)
     {
         if(otherP2D.gameObject.tag == "Enemy")
         {

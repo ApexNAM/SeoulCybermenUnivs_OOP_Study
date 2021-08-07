@@ -2,69 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IPlayerInit
+namespace SkagoGames.PlayerNC
 {
-    void IFPlayerSetup();
-}
-
-public interface IPlayerLoops
-{
-    void IFPlayerLoop();
-    void IFPlayerFixedLoop();
-}
-
-public class PlayerBehaviour : MonoBehaviour, IPlayerInit, IPlayerLoops
-{
-    void Start()
+    public class InheritanceFromPlayerClass : MonoBehaviour
     {
-        StartCoroutine(CPlayerInit());
+        protected virtual void VPlayerSetup() { }
+        protected virtual void VPlayerLoop() { }
+        protected virtual void VPlayerFixedLoop() { }
 
-        StartCoroutine(CPlayerLoop());
-        StartCoroutine(CPlayerFixedLoop());
+        protected virtual void OnPlayerEnter(Collider otherP) { }
+
+        protected virtual void OnPlayerEnter2D(Collider2D otherP2D) { }
     }
 
-    void OnTriggerEnter(Collider other) 
+    public class PlayerBehaviour : InheritanceFromPlayerClass
     {
-        OnPlayerEnter(other);
-    }
-
-    void OnTriggerEnter2D(Collider2D other) 
-    {
-        OnPlayerEnter2D(other);
-    }
-
-    private IEnumerator CPlayerInit()
-    {
-        Debug.Log("CPlayerInit");
-        IFPlayerSetup();
-        yield break;
-    }
-
-    private IEnumerator CPlayerLoop()
-    {
-        while(true)
+        private void Start()
         {
-            yield return null;
-            Debug.Log("CPlayerLoop");
-            IFPlayerLoop();
+            VPlayerSetup();
+        }
+        private void Update()
+        {
+            VPlayerLoop();
+        }
+
+        private void FixedUpdate() 
+        {
+            VPlayerFixedLoop();
+        }
+
+        private void OnTriggerEnter(Collider other) 
+        {
+           OnPlayerEnter(other);
+        }
+
+        private void OnTriggerEnter2D(Collider2D other) 
+        {
+            OnPlayerEnter2D(other);
         }
     }
-
-    private IEnumerator CPlayerFixedLoop()
-    {
-        while(true)
-        {
-            yield return new WaitForFixedUpdate();
-            Debug.Log("CPlayerFixedLoop");
-            IFPlayerFixedLoop();
-        }
-    }
-
-    public virtual void IFPlayerSetup() { }
-    public virtual void IFPlayerLoop() { }
-    public virtual void IFPlayerFixedLoop() { }
-
-    public virtual void OnPlayerEnter(Collider otherP) { }
-
-    public virtual void OnPlayerEnter2D(Collider2D otherP2D) { }
 }
